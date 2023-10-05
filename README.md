@@ -1,7 +1,7 @@
 # Refining Diffusion Planner for Reliable Behavior Synthesis by Automatic Detection of Infeasible Plans
 
 <p align='center'>
-    <img src="assets/main.png"/ width=60%>
+    <img src="assets/main.png"/ width=90%>
 </p>
 
 This repository provides the source codes for our paper "Refining Diffusion Planner for Reliable Behavior Synthesis by Automatic Detection of Infeasible Plans" in NeurIPS 2023.
@@ -93,7 +93,7 @@ python scripts/train_gap_predictor.py \
 Attribution map can be inspected using `notebooks/maze2d/plot_attribution.ipynb`.
 
 <p align='center'>
-    <img src="assets/attribution.png"/ width=60%>
+    <img src="assets/attribution.png"/ width=80%>
 </p>
 
 ## Credit
