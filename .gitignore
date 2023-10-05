@@ -1,0 +1,9 @@
+*/*/mjkey.txt
+**/.DS_STORE
+**/*.pyc
+__pycache__/
+**/*.swp
+MANIFEST
+logs
+*.egg-info
+*/.ipynb_checkpoints/*
