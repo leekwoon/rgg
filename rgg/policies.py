@@ -19,7 +19,6 @@ class Policy(object, metaclass=abc.ABCMeta):
 
 class Maze2dPolicy(Policy):
     def __init__(self, pipeline, pipeline_kwargs, fix_batch_observations=None):
-        # assert isinstance(pipeline, DiffuserPipeline)
         self.pipeline = pipeline
         self.pipeline_kwargs = pipeline_kwargs
         self.plan_hor = pipeline_kwargs['planning_horizon']
@@ -41,8 +40,6 @@ class Maze2dPolicy(Policy):
                 pipe_result = self.pipeline(
                     conditions, return_chain_observations=False, **self.pipeline_kwargs
                 ) 
-                # TODO: remove it
-                # self.pipe_result = pipe_result
 
                 # [batch_size x plan_hor x num_plan x observation_dim]
                 self.batch_observations = pipe_result.observations[:, 0, :, :]
@@ -63,3 +60,25 @@ class Maze2dPolicy(Policy):
         self.t = 0
     
 
+class LocomotionPolicy(Policy):
+    def __init__(self, pipeline, pipeline_kwargs):
+        self.pipeline = pipeline
+        self.pipeline_kwargs = pipeline_kwargs
+        self.t = None
+
+    def get_action(self, obs_np):
+        actions = self.get_actions(obs_np[None])
+        return actions[0, :], {}
+
+    def get_actions(self, obs_np):
+        conditions = {
+            0: obs_np,
+        }
+        pipe_result = self.pipeline(
+            conditions, return_chain_observations=False, **self.pipeline_kwargs
+        ) 
+        self.t += 1 
+        return pipe_result.action             
+
+    def reset(self):
+        self.t = 0

@@ -6,7 +6,7 @@
 
 This repository provides the source codes for our paper "Refining Diffusion Planner for Reliable Behavior Synthesis by Automatic Detection of Infeasible Plans" in NeurIPS 2023.
 
-> Currently, this repository contains only the code for the maze2d experiments. We plan to update this repository after making some preparations, including code clean-up.
+> Currently, this repository contains only the code for the maze2d and locomotion experiments. We plan to update this repository after making some preparations, including code clean-up.
 
 ## Installation
 

@@ -118,7 +118,6 @@ def plot_locomotion_observations(env_name, observations, ax=None, img_width=1024
     import cv2
     import mujoco_py as mjc
     from gym.envs.robotics.rotations import mat2euler
-    import diffuser
 
     def env_map(env_name):
         '''
@@ -211,7 +210,7 @@ def plot_locomotion_observations(env_name, observations, ax=None, img_width=1024
     render_kwargs = {
         'trackbodyid': 2,
         'distance': 3,
-        'lookat': [2, 0, 1],
+        'lookat': [4, 0, 1],
         'elevation': 0
     }
     width = img_width
@@ -237,6 +236,9 @@ def plot_locomotion_observations(env_name, observations, ax=None, img_width=1024
     elif 'walker2d' in env_name:
         joints = ['torso', 'thigh', 'foot']
         joint_colors = ['Reds', 'Greens', 'Blues']
+    elif 'halfcheetah' in env_name:
+        joints = ['torso']
+        joint_colors = ['Reds']
     else:
         raise NotImplementedError()
 
@@ -281,7 +283,6 @@ def plot_locomotion_observations(env_name, observations, ax=None, img_width=1024
             img[mask[:, :, 2], 2] = 131
 
             edges = cv2.Canny(image=img, threshold1=100, threshold2=200)
-            # edges = cv2.Canny(image=img, threshold1=180, threshold2=280)
             edge_mask = (edges == 255)[:, :, None].repeat(3, axis=-1)
             img[edge_mask] = 0
 
@@ -296,16 +297,15 @@ def plot_locomotion_observations(env_name, observations, ax=None, img_width=1024
             composite_img = cv2.circle(
                 composite_img,
                 (int(y), height - int(x)),
-                width // 100, # radius
+                width // 150, # radius
                 colors[t][:3] * 255,
                 -1 # fill
             )   
             composite_img = cv2.circle(
                 composite_img,
                 (int(y), height - int(x)),
-                width // 100, # radius
+                width // 150, # radius
                 (0, 0, 0),
                 1 # not fill
             )   
     ax.imshow(composite_img)
-

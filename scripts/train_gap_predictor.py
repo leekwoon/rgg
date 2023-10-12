@@ -85,7 +85,6 @@ variant = dict(
 
 parser = argparse.ArgumentParser()
 for k, v in variant.items():
-    # print(k, v)
     parser.add_argument(
         f'--{k}', default=v, type=type(v)
     )

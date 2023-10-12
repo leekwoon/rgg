@@ -1,11 +1,14 @@
 import os
+os.environ['D4RL_SUPPRESS_IMPORT_ERROR'] = '1'
+import gym
+import d4rl
 import argparse
 import numpy as np
 
 from rgg.utils import suppress_output, set_seed
 from rgg.diffuser_utils import get_dataset
 from rgg.pipeline_diffuser import (
-    DiffuserPipeline, 
+    ValueGuidedDiffuserPipeline, 
     pipeline_kwargs
 )
 
@@ -18,9 +21,9 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--base_datadir', type=str, default='./logs/data',
         help='base subdirectofy of data')
-    parser.add_argument('--env_name', type=str, default='maze2d-large-v1', 
+    parser.add_argument('--env_name', type=str, default='hopper-medium-v2', 
         help='')
-    parser.add_argument('--diffusers_repo', type=str, default='leekwoon/maze2d-large-v1-H384-T256', 
+    parser.add_argument('--diffusers_repo', type=str, default='leekwoon/hopper-medium-v2-H32-T20', 
         help='')
     parser.add_argument('--n', type=int, default=500000, 
         help='num data')
@@ -56,7 +59,7 @@ def main(args):
         dataset = get_dataset(args.env_name)
     print('[o] load dataset!')
     normalizer = dataset.normalizer
-    pipeline = DiffuserPipeline.from_pretrained(
+    pipeline = ValueGuidedDiffuserPipeline.from_pretrained(
         args.diffusers_repo,
         normalizer=normalizer,
     ).to(args.device)
@@ -79,7 +82,6 @@ def main(args):
 
         conditions = {
             0: dummy_real_observations[:, 0],
-            plan_hor - 1: dummy_real_observations[:, -1],
         }
         pipe_result = pipeline(conditions, return_chain_observations=False, **pipeline_kwargs[args.env_name])
         all_plan_observations[idxs, :] = pipe_result.observations[:, 0]
@@ -97,7 +99,7 @@ def main(args):
         n=args.n
     )
 
-
+   
 if __name__ == "__main__":
     args = parse_args()
     main(args)

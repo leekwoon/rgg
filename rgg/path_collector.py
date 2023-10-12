@@ -2,7 +2,6 @@
 # https://github.com/rail-berkeley/rlkit/blob/master/rlkit/samplers/data_collector/path_collector.py
 # https://github.com/rail-berkeley/rlkit/blob/master/rlkit/samplers/rollout_functions.py
 import copy
-import time
 import numpy as np
 from tqdm import tqdm
 
@@ -76,7 +75,6 @@ def batch_maze2d_rollout(
             next_o = []
             r = []
             done = []
-            # for i, env in enumerate(batch_env):
             for i, env in enumerate(tqdm(batch_env, desc='batch', position=2, leave=False)):
                 trans = env.step(copy.deepcopy(a[i]))
                 next_o.append(trans[0])
@@ -121,3 +119,69 @@ def batch_maze2d_rollout(
 
     return paths
 
+
+def batch_locomotion_rollout(
+    batch_env,
+    agent,
+    max_path_length=np.inf,
+    reset_callback=None,
+    verbose=False
+):
+    observations = []
+    actions = []
+    rewards = []
+    dones = []
+    next_observations = []
+    path_length = 0
+    agent.reset()
+    o = np.array([e.reset() for e in batch_env])
+    if reset_callback:
+        o = reset_callback(batch_env, agent, o)
+    with tqdm(total=max_path_length*len(batch_env), desc='batch rollout', position=1, leave=False) as pbar:
+        while path_length < max_path_length:
+            # if verbose:
+            #     print(f'     {path_length} {max_path_length}')
+            a = agent.get_actions(o)        
+            next_o = []
+            r = []
+            done = []
+            for i, env in enumerate(tqdm(batch_env, desc='batch', position=2, leave=False)):
+                trans = env.step(copy.deepcopy(a[i]))
+                next_o.append(trans[0])
+                r.append(trans[1])
+                done.append(trans[2])
+            next_o = np.array(next_o)
+            r = np.array(r)
+            done = np.array(done)
+            observations.append(o)
+            rewards.append(r)
+            dones.append(done)
+            actions.append(a)
+            next_observations.append(next_o)
+            path_length += 1
+            o = next_o
+            pbar.update(len(batch_env))
+    
+    observations = np.array(observations)
+    actions = np.array(actions)
+    rewards = np.array(rewards)
+    next_observations = np.array(next_observations)
+    dones = np.array(dones)
+
+    paths = [
+        dict(
+            observations=observations[:, i],
+            actions=actions[:, i],
+            rewards=rewards[:, i],
+            next_observations=next_observations[:, i],
+            dones=dones[:, i].reshape(-1, 1),
+        ) for i in range(len(batch_env))
+    ]
+
+    for path in paths:
+        if len(path['actions'].shape) == 1:
+            path['actions'] = np.expand_dims(path['actions'], 1)
+        if len(path['rewards'].shape) == 1:
+            path['rewards'] = np.expand_dims(path['rewards'], 1)
+
+    return paths
