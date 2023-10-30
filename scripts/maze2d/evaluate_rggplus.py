@@ -30,7 +30,7 @@ def path_to_total_reward(path):
 
 
 variant = dict(
-    logbase='/nas/users/dahye/egdd_logs/evaluate',
+    logbase='./logs/evaluate',
     env_name='maze2d-large-v1',
     task='single_task',
     diffusers_repo='leekwoon/maze2d-large-v1-H384-T256',
