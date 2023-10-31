@@ -37,7 +37,7 @@ variant = dict(
     device='cuda',
     num_episodes=1000,
     spec='rggplus',
-    gap_predictor_path='/nas/users/dahye/egdd_logs/gap_predictor/maze2d-large-v1-H384-T256/500000_finish/2023_03_26_03_44_06/seed_0/state_best.pt',
+    gap_predictor_path='./logs/gap_predictor/maze2d-large-v1-H384-T256/500000_finish/2023_03_26_03_44_06/seed_0/state_best.pt',
 )
 variant['num_plan'] = pipeline_kwargs[variant['env_name']]['num_plan']
 variant['scale'] = pipeline_kwargs[variant['env_name']]['scale']

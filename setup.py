@@ -3,9 +3,6 @@ from setuptools import setup
 
 setup(
     name='rgg',
-    # description='',
-    # author='',
-    # version='',
     packages=['rgg'],
     install_requires=[
         'gdown',
