@@ -4,7 +4,7 @@
     <img src="assets/main.png"/ width=90%>
 </p>
 
-This repository provides the source codes for our paper "Refining Diffusion Planner for Reliable Behavior Synthesis by Automatic Detection of Infeasible Plans" in NeurIPS 2023.
+This repository provides the source codes for our paper [Refining Diffusion Planner for Reliable Behavior Synthesis by Automatic Detection of Infeasible Plans](https://arxiv.org/pdf/2310.19427.pdf) in NeurIPS 2023.
 
 > Currently, this repository contains only the code for the maze2d and locomotion experiments. We plan to update this repository after making some preparations, including code clean-up.
 
@@ -96,6 +96,6 @@ Attribution map can be inspected using `notebooks/maze2d/plot_attribution.ipynb`
     <img src="assets/attribution.png"/ width=80%>
 </p>
 
-## Credit
+## Acknowledgements
 
 This repository is extended from [diffuser](https://github.com/jannerm/diffuser) and [diffusers](https://github.com/huggingface/diffusers). 
