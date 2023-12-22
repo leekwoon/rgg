@@ -96,12 +96,18 @@ Attribution map can be inspected using `notebooks/maze2d/plot_attribution.ipynb`
 
 ## Reference
 
+```
 @inproceedings{lee2023refining,
   title={Refining Diffusion Planner for Reliable Behavior Synthesis by Automatic Detection of Infeasible Plans},
   author={Lee, Kyowoon and Kim, Seongun and Choi, Jaesik},
   booktitle={Advances in Neural Information Processing Systems},
   year={2023},
 }
+```
+
+## License
+
+This repository is released under the MIT license. See [LICENSE](LICENSE) for additional details.
 
 ## Acknowledgements
 
